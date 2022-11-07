@@ -21,7 +21,8 @@ class AdminController extends Controller
         $totalTeacher = User::where('role','teacher')->where('active', 1)->count();
         $totalSemester = Semester::count();
         $totalSession = Session::count();
-        return view('admin.pages.dashboard', compact('pendingStudent','pendingTeacher','totalStudent','totalTeacher','totalSemester','totalSession'));
+        $totalSection = Section::count();
+        return view('admin.pages.dashboard', compact('pendingStudent','pendingTeacher','totalStudent','totalTeacher','totalSemester','totalSession','totalSection'));
     }
 
 
@@ -253,31 +254,21 @@ class AdminController extends Controller
 }
 
 public function storeSection(Request $request){
-    // $obj = new Section();
-    // $obj->session_name = ($request->session_name);
-    // $obj->section_name = ($request->section_name);
-    // if($obj->save()){
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'message' => 'Section created successfully'
-    //     ]);
-    // }
-    // else{
-    //     return response()->json([
-    //         'status' => 'error',
-    //         'message' => 'Section creation failed'
-    //     ]);
-    // }
     $obj = new Section();
     $obj->session_name = ($request->session_name);
     $obj->section_name = ($request->section_name);
     if($obj->save()){
-        return redirect()->back()->with('success','Section Created');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Section created successfully'
+        ]);
     }
     else{
-        return redirect()->back()->with('error','An Error Occured');
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Section creation failed'
+        ]);
     }
-    
 }
 
 public function sectionList(){

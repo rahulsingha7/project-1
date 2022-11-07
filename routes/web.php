@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,7 +50,10 @@ use Illuminate\Support\Facades\Route;
             //section
             Route::get('admin-create-section',[AdminController::class, 'createSection']);
             Route::get('admin-section-list',[AdminController::class, 'sectionList']);
-            Route::post('store-section',[AdminController::class,'storeSection']);
     });
+            Route::middleware(['CheckStudent'])->group(function () {
+                Route::get('student-home',[StudentController::class,'studentHome']);
+            });
+     
     });
   

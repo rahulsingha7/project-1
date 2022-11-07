@@ -41,7 +41,7 @@ Route::post('semester-list-delete/{id}',[AdminController::class,'semesterListDel
 //sections
 
 Route::get('show-section-list',[AdminController::class,'sectionListView']);
-// Route::post('store-section',[AdminController::class,'storeSection']);
+Route::post('store-section',[AdminController::class,'storeSection']);
 Route::get('show-section-edit/{id}',[AdminController::class,'sectionEdit']);
 Route::post('section-update/{id}',[AdminController::class,'sectionUpdate']);
 Route::post('section-list-delete/{id}',[AdminController::class,'sectionListDelete']);

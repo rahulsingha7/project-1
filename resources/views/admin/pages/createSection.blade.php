@@ -9,7 +9,7 @@
         <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">
                                          Create Section</i>
                                     </a>
-                                    @if(Session::has('error'))
+                                    <!-- @if(Session::has('error'))
                                 <div class="alert alert-error">
                                    <strong>{{Session::get('error')}}</strong>
                                 </div>
@@ -18,7 +18,7 @@
                                 <div class="alert alert-success">
                                    <strong>{{Session::get('success')}}</strong>
                                 </div>
-                                @endif
+                                @endif -->
                                     <div class="modal" id="myModal">
                                         <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
@@ -27,8 +27,9 @@
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-                                                <form class="user" action="{{url('store-section')}}">
-                                                    {{csrf_field()}}
+                                                <form class="user" >
+                                                    <!-- {{csrf_field()}}
+                                                    action="{{url('store-section')}}" -->
                                                 <div class="form-group">
                                                 <select class="form-select form-control-user py-3 w-100 px-3" name="session_name"
                                                     id="session_name">
@@ -86,44 +87,44 @@
                     }
                 });
             }
-            // $('#submit').click(function() {
-            //     var session_name = $('#session_name').val();
-            //     var section_name = $('#section_name').val();
-            //     var str = ''
-            //     $("#reg").empty();
-            //     if (session_name==''||section_name == '') {
-            //         alert('Please fill all fields');
-            //     } else {
-            //         $.ajax({
-            //             url: 'http://127.0.0.1:8000/api/store-section',
-            //             type: 'POST',
-            //             dataType: "json",
-            //             data: {
-            //                 session_name: session_name,
-            //                 section_name: section_name,
-            //             },
-            //             success: function(result) {
-            //                 if (result.status == 'success') {
-            //                      alert('section Created Successfully');
-            //                     str +=
-            //                         `<div class="alert alert-success" role="alert" id="reg"><strong>${result.message}</strong></div>`;
-            //                     $("#reg").append(str);
-            //                 } else if (result.status == 'error') {
-            //                     alert('An Error Occured');
-            //                     str +=
-            //                         `<div class="alert alert-success" role="alert" id="reg"><strong>${result.message}</strong></div>`;
-            //                     $("#reg").append(str);
+            $('#submit').click(function() {
+                var session_name = $('#session_name').val();
+                var section_name = $('#section_name').val();
+                var str = ''
+                $("#reg").empty();
+                if (session_name==''||section_name == '') {
+                    alert('Please fill all fields');
+                } else {
+                    $.ajax({
+                        url: 'http://127.0.0.1:8000/api/store-section',
+                        type: 'POST',
+                        dataType: "json",
+                        data: {
+                            session_name: session_name,
+                            section_name: section_name,
+                        },
+                        success: function(result) {
+                            if (result.status == 'success') {
+                                 alert('section Created Successfully');
+                                str +=
+                                    `<div class="alert alert-success" role="alert" id="reg"><strong>${result.message}</strong></div>`;
+                                $("#reg").append(str);
+                            } else if (result.status == 'error') {
+                                alert('An Error Occured');
+                                str +=
+                                    `<div class="alert alert-success" role="alert" id="reg"><strong>${result.message}</strong></div>`;
+                                $("#reg").append(str);
                                 
-            //                 } else if (result.status == 'err') {
-            //                     alert('An Error Occured');
-            //                     str +=
-            //                         `<div class="alert alert-success" role="alert" id="reg"><strong>${result.message}</strong></div>`;
-            //                     $("#reg").append(str);
-            //                 }
-            //             }
-            //         });
-            //     }
-            // });
+                            } else if (result.status == 'err') {
+                                alert('An Error Occured');
+                                str +=
+                                    `<div class="alert alert-success" role="alert" id="reg"><strong>${result.message}</strong></div>`;
+                                $("#reg").append(str);
+                            }
+                        }
+                    });
+                }
+            });
         });
     </script>
 
