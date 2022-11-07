@@ -28,19 +28,12 @@ body{
     <div class="col-sm-4"> </div>
 <div class="col-md-4">
   
-<h1 class="text-center text-success"> Registration page</h1>
+<h1 class="text-center text-success">Teacher Registration</h1>
 <br/>
 <div id="reg">
 
 </div>
 <div class="col-sm-12">
-
-  <ul class="nav nav-pills" >
-
-    <li style="width:50%"><a class="btn btn-lg btn-default" data-toggle="tab" href="#home">Teacher</a></li>
-    <li style="width:48%"><a class=" btn btn-lg btn-default" data-toggle="tab" href="#menu1">Student</a></li>
-  </ul>
-<br/>
 <!-- Teacher -->
   <div class="tab-content">
     <div id="home" class="tab-pane fade in active">    
@@ -75,42 +68,7 @@ body{
 
 </form>
 <br/>
-<a href="{{url('login')}}" class="pull-right btn btn-block btn-success" > Already Registered ?   </a>
-
-    </div>
-    <div id="menu1" class="tab-pane fade">
-<!-- Student -->
-<form>
-   @csrf
-  <div class="form-group">
-    <label for="Name">Name:</label>
-    <input type="text" class="form-control" name="name2" id="name2" placeholder="Enter Your Name">
-  </div>
-  <div class="form-group">
-    <label for="Name">Student ID:</label>
-    <input type="number" class="form-control" name="student_id" id="student_id" placeholder="Enter Student ID">
-  </div>
-  
-  <div class="form-group">
-    <label for="email">Email address:</label>
-    <input type="email" class="form-control" name="email2" id="email2" placeholder="Enter Your Email">
-  </div>
-
-  <div class="form-group">
-    <label for="">Password:</label>
-    <input type="password" class="form-control" name="password2" id="password2" placeholder="Enter your password">
-  </div>
-
-  <div class="form-group">
-    <label for="pwd">Confirm Password:</label>
-    <input type="password" class="form-control" name="confirm2" id="confirm2" placeholder="Confirm your password">
-  </div>
-
-  <button type="submit" id="submit2" class="btn btn-default">Register</button>
-
-</form>
-<br/>
-<a href="{{url('login')}}" class="pull-right btn btn-block btn-success" > Already Registered ?   </a>
+<a href="{{url('teacher-login')}}" class="pull-right btn btn-block btn-success" > Already Registered ?   </a>
 
     </div>
    </div>
@@ -154,49 +112,6 @@ body{
                             } else {
                                 str +=
                                     `<div class="alert alert-success" role="alert" id="reg"><strong>Account Not Created</strong></div>`;
-                                $("#reg").append(str);
-                            }
-                        }
-                    });
-                }
-            });
-            $('#submit2').click(function() {
-                let name2 = $('#name2').val();
-                let student_id = $('#student_id').val();
-                let email2 = $('#email2').val();
-                var password2= $('#password2').val();
-                var confirm2 = $('#confirm2').val();
-                var role='student';
-                var str = ''
-                $("#reg").empty();
-                if (name2 == '' || student_id == '' || email2 == '' || role == '' || password2 == '' ||
-                    confirm2 == '') {
-                    alert('Please fill all the fields');
-                } else if (password2 != confirm2) {
-                    alert('Password dont not match');
-                } else {
-                    $.ajax({
-                        url: 'http://127.0.0.1:8000/api/register-store-student',
-                        method: "POST",
-                        data: {
-                            name: name2,
-                            student_id: student_id,
-                            email: email2,
-                            role: role,
-                            password: password2,
-                        },
-                        success: function(result) {
-                            if (result.status == 'success') {
-                                str +=
-                                    `<div class="alert alert-success" role="alert" id="reg"><strong>Account Created Successfully. Please Wait for admin approvel. </strong></div>`;
-                                $("#reg").append(str);
-                                 $("#submit").reset();
-                                alert('Registration success');
-                                window.location.href = "{{ url('login') }}";
-                            } else {
-                                str +=
-                                    `<div class="alert alert-success" role="alert" id="reg"><strong>Account Not Created</strong></div>`;
-                                    
                                 $("#reg").append(str);
                             }
                         }

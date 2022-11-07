@@ -17,7 +17,7 @@ class IsTeacher
     public function handle(Request $request, Closure $next)
     {
         if (session()->has('userrole') && session()->get('userrole') != 'teacher') {
-            return redirect('login');
+            return redirect('teacher-login');
         }
         return $next($request);
     }

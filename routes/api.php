@@ -24,13 +24,24 @@ Route::post('register-store-teacher',[AuthController::class,'registerStoreTeache
 Route::post('register-store-student',[AuthController::class,'registerStoreStudent']);
 Route::post('store-login',[AuthController::class,'storeLogin']);
 
-Route::get('show-pending-student',[AdminController::class, 'pendingStudentView']);
-Route::post('approve-pending-student/${id}',[AdminController::class, 'pendingStudentApprove']);
-Route::post('delete-pending-student/${id}',[AdminController::class, 'deletePendingStudent']);
+//session
+Route::post('store-session',[AdminController::class,'storeSession']);
+Route::get('show-session-list',[AdminController::class,'sessionListView']);
+Route::get('show-session-edit/{id}',[AdminController::class,'sessionEdit']);
+Route::post('session-update/{id}',[AdminController::class,'sessionUpdate']);
+Route::post('session-list-delete/{id}',[AdminController::class,'sessionListDelete']);
 
-Route::get('show-pending-teacher',[AdminController::class, 'pendingTeacherView']);
-Route::post('approve-pending-teacher/${id}',[AdminController::class, 'pendingTeacherApprove']);
-Route::post('delete-pending-teacher/${id}',[AdminController::class, 'deletePendingTeacher']);
+//semester
+Route::post('store-semester',[AdminController::class,'storeSemester']);
+Route::get('show-semester-list',[AdminController::class,'semesterListView']);
+Route::get('show-semester-edit/{id}',[AdminController::class,'semesterEdit']);
+Route::post('semester-update/{id}',[AdminController::class,'semesterUpdate']);
+Route::post('semester-list-delete/{id}',[AdminController::class,'semesterListDelete']);
 
-Route::get('show-total-student',[AdminController::class, 'totalStudentView']);
-Route::get('show-total-teacher',[AdminController::class, 'totalTeacherView']);
+//sections
+
+Route::get('show-section-list',[AdminController::class,'sectionListView']);
+// Route::post('store-section',[AdminController::class,'storeSection']);
+Route::get('show-section-edit/{id}',[AdminController::class,'sectionEdit']);
+Route::post('section-update/{id}',[AdminController::class,'sectionUpdate']);
+Route::post('section-list-delete/{id}',[AdminController::class,'sectionListDelete']);

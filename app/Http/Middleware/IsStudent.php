@@ -17,7 +17,7 @@ class IsStudent
     public function handle(Request $request, Closure $next)
     {
         if (session()->has('userrole') && session()->get('userrole') != 'student') {
-            return redirect('login');
+            return redirect('student-login');
         }
         return $next($request);
     }

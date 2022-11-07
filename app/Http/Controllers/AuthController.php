@@ -11,11 +11,20 @@ class AuthController extends Controller
         return view('auth.home');
     }
     
-    public function login(){
-        return view('auth.login');
+    public function studentLogin(){
+        return view('auth.studentLogin');
     }
-    public function register(){
-        return view('auth.register');
+    public function teacherLogin(){
+        return view('auth.teacherLogin');
+    }
+    public function adminLogin(){
+        return view('auth.adminLogin');
+    }
+    public function teacherRegister(){
+        return view('auth.teacherRegister');
+    }
+    public function studentRegister(){
+        return view('auth.studentRegister');
     }
     public function registerStoreTeacher(Request $req){
         $obj = new User();
@@ -65,12 +74,12 @@ class AuthController extends Controller
           else if($user->active == 1 && $user->role == 'student'){
              $req->session()->put('username',$user->name);
              $req->session()->put('userrole',$user->role);
-             return redirect('home');
+             return redirect('student');
           }
           else if($user->active == 1 && $user->role == 'teacher'){
              $req->session()->put('username',$user->name);
              $req->session()->put('userrole',$user->role);
-             return redirect('teacher/home');
+             return redirect('teacher');
           }
        }
        else{

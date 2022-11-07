@@ -16,7 +16,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         if (session()->has('userrole') && session()->get('userrole') != 'admin') {
-            return redirect('login');
+            return redirect('admin-login');
         }
         return $next($request);
     }

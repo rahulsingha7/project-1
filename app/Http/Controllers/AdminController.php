@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Section;
+use App\Models\Semester;
+use App\Models\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -15,77 +19,297 @@ class AdminController extends Controller
         $pendingTeacher = User::where('role','teacher')->where('active', 0)->count();
         $totalStudent = User::where('role','student')->where('active', 1)->count();
         $totalTeacher = User::where('role','teacher')->where('active', 1)->count();
-        return view('admin.pages.dashboard', compact('pendingStudent','pendingTeacher','totalStudent','totalTeacher'));
+        $totalSemester = Semester::count();
+        $totalSession = Session::count();
+        return view('admin.pages.dashboard', compact('pendingStudent','pendingTeacher','totalStudent','totalTeacher','totalSemester','totalSession'));
     }
-    public function pendingStudent(){
-        return view('admin.pages.pendingStudent');
+
+
+  public function pendingStudent(){
+    $pendingStudentList = User::where('role','student')->where('active', 0)->get();
+    return view('admin.pages.pendingStudent', compact('pendingStudentList'));
+  }
+  public function deletePendingStudent($pid){
+    $deleted = User::where('id', '=', $pid)->delete();
+    return redirect('admin-pending-student');
     }
-    public function pendingStudentView(){
-        $data = User::where('role','=','student')
-        ->where('active','=',0)
-        ->get();
-    if($data->count() > 0){
-        return response()->json([
-                'status' => 'success',
-                'data' => $data
-        ]);
-    }
-    else{
-        return response()->json([
-            'status' => 'error',
-            'message' => 'No data found'
-        ]);
-    }
-}
-public function pendingStudentApprove(Request $request, $id){
-    $active = intval($request->activate);
-    $data = User::where('role','=','student')
-                    ->where('id','=',$id)
-                    ->update([
-                        'active' => $active
-                    ]);
-    if($data){
-        return response()->json([
-                'status' => 'success',
-                'message' => 'Student activated successfully'
-        ]);
-    }
-    else{
-        return response()->json([
-            'status' => 'error',
-            'message' => 'No data found'
-        ]);
-    }
-        
-}
-    public function deletePendingStudent($id){
-      $data = User::where('role','=','student')
-             ->where('id','=',$id)
-             ->delete();
-     if($data){
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Student Deleted Successfully'
-        ]);
-     }
-     else{
-        return response()->json([
-            'status' => 'error',
-            'message' => 'No data found'
-        ]);
-     }
+    public function updatePendingStudent($pid){
+        User::where('id', '=', $pid)->where('active',0)->update(['active' => 1]);
+        return redirect('admin-pending-student');
     }
     public function pendingTeacher(){
-        return view('admin.pages.pendingTeacher');
+        $pendingTeacherList = User::where('role','teacher')->where('active', 0)->get();
+        return view('admin.pages.pendingTeacher',compact('pendingTeacherList'));
     }
-    public function pendingTeacherView(){
-        $data = User::where('role','=','teacher')
-        ->where('active','=',0)
-        ->get();
-    if($data->count() > 0){
-        return response()->json([
+    public function deletePendingTeacher($pid){
+        $deleted = User::where('id', '=', $pid)->delete();
+        return redirect('admin-pending-teacher');
+    }
+    public function updatePendingTeacher($pid){
+        User::where('id', '=', $pid)->where('active',0)->update(['active' => 1]);
+        return redirect('admin-pending-teacher');
+    }
+    public function totalStudent(){
+        $totalStudentList = User::where('role','student')->where('active', 1)->get();
+        return view('admin.pages.totalStudent', compact('totalStudentList'));
+    }
+    public function totalTeacher(){
+        $totalTeacherList = User::where('role','teacher')->where('active', 1)->get();
+        return view('admin.pages.totalTeacher', compact('totalTeacherList'));
+    }
+
+    //Session
+    public function createSession(){
+        return view('admin.pages.createSession');
+    }
+    public function storeSession(Request $request){
+        $obj = new Session();
+        $obj->session_name = $request->session_name;
+        if($obj->save()){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Session created successfully'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An Error Occured'
+            ]);
+        }
+
+    }
+    public function sessionList(){
+        return view('admin.pages.allSession');
+    }
+    public function sessionListView(){
+        $data = Session::all();
+        if($data->count() > 0){
+            return response()->json([
                 'status' => 'success',
                 'data' => $data
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+        
+    }
+    public function sessionEdit($id){
+        $data = Session::where('id','=',$id)->first();
+        if($data){
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+    }
+    public function sessionUpdate(Request $request, $id){
+        $data = Session::where('id','=',$id)
+                        ->update([
+                            'session_name' => $request->session_name
+                        ]);
+        if($data){
+            return response()->json([
+                    'status' => 'success',
+                    'message' => 'Session updated successfully'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+            
+    }
+    public function sessionListDelete( $id){
+        $data = Session::where('id','=',$id)
+                        ->delete();
+        if($data){
+            return response()->json([
+                    'status' => 'success',
+                    'message' => 'Session Deleted successfully'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+            
+    }
+    //Semester
+    public function createSemester(){
+        return view('admin.pages.createSemester');
+    }
+
+    public function storeSemester(Request $request){
+        $obj = new Semester();
+        $obj->semester_name = intval($request->semester_name);
+        if($obj->save()){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Semester created successfully'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Semester creation failed'
+            ]);
+        }
+
+    }
+
+    public function semesterList(){
+        return view('admin.pages.allSemester');
+    }
+
+    public function semesterListView(){
+        $data = Semester::all();
+        if($data->count() > 0){
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+        
+    }
+
+    public function semesterEdit($id){
+        $data = Semester::where('id','=',$id)->first();
+        if($data){
+            return response()->json([
+                'status' => 'success',
+                'data' => $data
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+    }
+
+    public function semesterUpdate(Request $request, $id){
+        $data = Semester::where('id','=',$id)
+                        ->update([
+                            'semester_name' => intval($request->semester_name)
+                        ]);
+        if($data){
+            return response()->json([
+                    'status' => 'success',
+                    'message' => 'Semester updated successfully'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+            
+    }
+
+    public function semesterListDelete( $id){
+        $data = Semester::where('id','=',$id)
+                        ->delete();
+        if($data){
+            return response()->json([
+                    'status' => 'success',
+                    'message' => 'Semester Deleted successfully'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No data found'
+            ]);
+        }
+            
+    }
+  
+   //section
+   public function createSection(){
+    return view('admin.pages.createSection');
+}
+
+public function storeSection(Request $request){
+    // $obj = new Section();
+    // $obj->session_name = ($request->session_name);
+    // $obj->section_name = ($request->section_name);
+    // if($obj->save()){
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'message' => 'Section created successfully'
+    //     ]);
+    // }
+    // else{
+    //     return response()->json([
+    //         'status' => 'error',
+    //         'message' => 'Section creation failed'
+    //     ]);
+    // }
+    $obj = new Section();
+    $obj->session_name = ($request->session_name);
+    $obj->section_name = ($request->section_name);
+    if($obj->save()){
+        return redirect()->back()->with('success','Section Created');
+    }
+    else{
+        return redirect()->back()->with('error','An Error Occured');
+    }
+    
+}
+
+public function sectionList(){
+    return view('admin.pages.allSection');
+}
+
+public function sectionListView(){
+     $data = DB::table('sections')
+                ->join('sessions','sections.session_name','=','sessions.id')
+                ->select('sections.*','sessions.session_name as session_name')
+                ->get();
+    if($data->count() > 0){
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
+        ]);
+    }
+    else{
+        return response()->json([
+            'status' => 'error',
+            'message' => 'No data found'
+        ]);
+    }
+    
+}
+
+public function sectionEdit($id){
+    $data = Section::where('id','=',$id)->first();
+    if($data){
+        return response()->json([
+            'status' => 'success',
+            'data' => $data
         ]);
     }
     else{
@@ -95,17 +319,17 @@ public function pendingStudentApprove(Request $request, $id){
         ]);
     }
 }
-public function pendingTeacherApprove(Request $request, $id){
-    $active = intval($request->activate);
-    $data = User::where('role','=','teacher')
-                    ->where('id','=',$id)
+
+public function sectionUpdate(Request $request, $id){
+    $data = Section::where('id','=',$id)
                     ->update([
-                        'active' => $active
+                        'session_name' => $request->session_name,
+                        'section_name' => $request->section_name
                     ]);
     if($data){
         return response()->json([
                 'status' => 'success',
-                'message' => 'Teacher activated successfully'
+                'message' => 'Section updated successfully'
         ]);
     }
     else{
@@ -116,34 +340,14 @@ public function pendingTeacherApprove(Request $request, $id){
     }
         
 }
-    public function deletePendingTeacher($id){
-      $data = User::where('role','=','teacher')
-             ->where('id','=',$id)
-             ->delete();
-     if($data){
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Student Deleted Successfully'
-        ]);
-     }
-     else{
-        return response()->json([
-            'status' => 'error',
-            'message' => 'No data found'
-        ]);
-     }
-    }
-    public function totalStudent(){
-        return view('admin.pages.totalStudent');
-    }
-    public function totalStudentView(){
-        $data = User::where('role','=','student')
-        ->where('active','=',1)
-        ->get();
-    if($data->count() > 0){
+
+public function sectionListDelete($id){
+    $data = Section::where('id','=',$id)
+                    ->delete();
+    if($data){
         return response()->json([
                 'status' => 'success',
-                'data' => $data
+                'message' => 'Section Deleted successfully'
         ]);
     }
     else{
@@ -152,25 +356,7 @@ public function pendingTeacherApprove(Request $request, $id){
             'message' => 'No data found'
         ]);
     }
-    }
-    public function totalTeacher(){
-        return view('admin.pages.totalTeacher');
-    }
-    public function totalTeacherView(){
-        $data = User::where('role','=','teacher')
-        ->where('active','=',1)
-        ->get();
-    if($data->count() > 0){
-        return response()->json([
-                'status' => 'success',
-                'data' => $data
-        ]);
-    }
-    else{
-        return response()->json([
-            'status' => 'error',
-            'message' => 'No data found'
-        ]);
-    }
-    }
+        
+}
+
 }

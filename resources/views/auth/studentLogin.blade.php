@@ -29,7 +29,7 @@ body{
     <div class="col-sm-4"> </div>
 <div class="col-md-4">
   
-<h1 class="text-center text-success"> Login page</h1>
+<h1 class="text-center text-success">Student Login </h1>
 <br/>
 
 <div class="col-sm-12">
@@ -54,7 +54,7 @@ body{
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
 <br/>
-<a href="{{url('register')}}" class="pull-right btn btn-block btn-success" >Dont have an account?</a>
+<a href="{{url('student-register')}}" class="pull-right btn btn-block btn-success" >Dont have an account?</a>
 
     </div>
    </div>

@@ -16,8 +16,6 @@ class CreateSectionsTable extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('section_name');
-            $table->unsignedBigInteger('course_code');
-            $table->foreign('course_code')->references('id')->on('courses');
             $table->unsignedBigInteger('session_name');
             $table->foreign('session_name')->references('id')->on('sessions');
             $table->timestamps();
