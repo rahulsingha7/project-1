@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,9 +51,15 @@ use Illuminate\Support\Facades\Route;
             //section
             Route::get('admin-create-section',[AdminController::class, 'createSection']);
             Route::get('admin-section-list',[AdminController::class, 'sectionList']);
-    });
+             });
             Route::middleware(['CheckStudent'])->group(function () {
                 Route::get('student-home',[StudentController::class,'studentHome']);
+                Route::get('create-group',[StudentController::class,'createGroup']);
+            });
+            Route::middleware(['CheckTeacher'])->group(function () {
+                Route::get('teacher-home',[TeacherController::class,'teacherHome']);
+                Route::get('create-project',[TeacherController::class,'createProject']);
+                Route::post('register-project',[TeacherController::class,'registerProject']);
             });
      
     });

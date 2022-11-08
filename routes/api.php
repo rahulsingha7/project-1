@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -45,3 +46,8 @@ Route::post('store-section',[AdminController::class,'storeSection']);
 Route::get('show-section-edit/{id}',[AdminController::class,'sectionEdit']);
 Route::post('section-update/{id}',[AdminController::class,'sectionUpdate']);
 Route::post('section-list-delete/{id}',[AdminController::class,'sectionListDelete']);
+
+
+//Teacher
+
+//
