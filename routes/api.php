@@ -50,4 +50,10 @@ Route::post('section-list-delete/{id}',[AdminController::class,'sectionListDelet
 
 //Teacher
 
+Route::get('show-project-list',[AdminController::class,'projectListView']);
+// Route::get('show-section-edit/{id}',[AdminController::class,'sectionEdit']);
+// Route::post('section-update/{id}',[AdminController::class,'sectionUpdate']);
+// Route::post('section-list-delete/{id}',[AdminController::class,'sectionListDelete']);
+
+
 //

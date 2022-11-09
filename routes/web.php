@@ -60,6 +60,7 @@ use Illuminate\Support\Facades\Route;
                 Route::get('teacher-home',[TeacherController::class,'teacherHome']);
                 Route::get('create-project',[TeacherController::class,'createProject']);
                 Route::post('register-project',[TeacherController::class,'registerProject']);
+                Route::get('teacher-project-list',[TeacherController::class,'projectList']);
             });
      
     });

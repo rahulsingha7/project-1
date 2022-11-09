@@ -74,11 +74,13 @@ class AuthController extends Controller
           else if($user->active == 1 && $user->role == 'student'){
              $req->session()->put('username',$user->name);
              $req->session()->put('userrole',$user->role);
+             $req->session()->put('userid',$user->id);
              return redirect('student-home');
           }
           else if($user->active == 1 && $user->role == 'teacher'){
              $req->session()->put('username',$user->name);
              $req->session()->put('userrole',$user->role);
+             $req->session()->put('userid',$user->id);
              return redirect('teacher-home');
           }
        }

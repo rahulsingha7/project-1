@@ -10,6 +10,6 @@ body{
 </style>
 <div class="container-fluid text-center mt-5">
   <h1>Welcome</h1>
-
+  <h3>{{$username}}</h3>
 </div>
 @endsection

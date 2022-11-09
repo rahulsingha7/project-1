@@ -9,12 +9,13 @@ body{
 }
 
 </style>
+
+<div class="container" style="margin-top:30px">
 @if(Session::has('info'))
   <div class="alert alert-error">
     <strong>{{Session::get('info')}}</strong>
   </div>
 @endif
-<div class="container" style="margin-top:30px">
 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="card">
