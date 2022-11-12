@@ -61,6 +61,7 @@ use Illuminate\Support\Facades\Route;
                 Route::get('create-project',[TeacherController::class,'createProject']);
                 Route::post('register-project',[TeacherController::class,'registerProject']);
                 Route::get('teacher-project-list',[TeacherController::class,'projectList']);
+                
             });
      
     });

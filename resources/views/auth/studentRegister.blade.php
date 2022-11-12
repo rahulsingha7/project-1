@@ -3,6 +3,7 @@
 <head>
   <title>Registration</title>
   <meta charset="utf-8">
+   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -77,6 +78,11 @@ body{
 <script>
      $(document).ready(function() {
             $('#submit2').click(function() {
+              $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 let name2 = $('#name2').val();
                 let student_id = $('#student_id').val();
                 let email2 = $('#email2').val();

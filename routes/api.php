@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,10 +51,11 @@ Route::post('section-list-delete/{id}',[AdminController::class,'sectionListDelet
 
 //Teacher
 
-Route::get('show-project-list',[AdminController::class,'projectListView']);
-// Route::get('show-section-edit/{id}',[AdminController::class,'sectionEdit']);
-// Route::post('section-update/{id}',[AdminController::class,'sectionUpdate']);
-// Route::post('section-list-delete/{id}',[AdminController::class,'sectionListDelete']);
+Route::get('show-project-list',[TeacherController::class,'projectListView']);
+Route::get('show-project-edit/{id}',[TeacherController::class,'projectEdit']);
+Route::post('project-update/{id}',[TeacherController::class,'projectUpdate']);
+Route::post('project-list-delete/{id}',[TeacherController::class,'projectListDelete']);
 
 
-//
+//Student
+Route::post('register-group',[StudentController::class,'registerGroup']);

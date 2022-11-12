@@ -16,7 +16,7 @@ body{
   <tr>
         <th>ID</th>
         <th>Project Title</th>
-        <th>Project </th>
+        <th style="width: 70%">Project Description</th>
         <th>Action</th>
   </tr>
   </thead>
@@ -28,11 +28,11 @@ body{
 integrity="sha512-NXopZjApK1IRgeFWl6aECo0idl7A+EEejb8ur0O3nAVt15njX9Gvvk+ArwgHfbdvJTCCGC5wXmsOUXX+ZZzDQw=="
 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script>
+<!-- <script>
       $(document).ready(function(){
-        getAllSections();
-            //get all sections
-            function getAllSections() {
+        getAllProjects();
+            //get all projects
+            function getAllProjects() {
                 var str = ""
                 $.ajax({
                     url: 'http://127.0.0.1:8000/api/show-project-list',
@@ -42,36 +42,33 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                         console.log(result);
                         if (result.status == 'success') {
                             var data = result.data;
-                            console.log(data);
                             var lent = result.data.length;
                             for (var i = 0; i < lent; i++) {
-                                console.log(data[i].id);
                                 str += `<tr>
                                 <td>${data[i].id}</td>
-                                <td>${data[i].session_name}</td>
-                                <td>${data[i].section_name}</td>
+                                <td>${data[i].project_title}</td>
+                                <td>${data[i].project_description}</td>
                                 <td>
-                                    <a id="edit" value="${data[i].id}" href="#" class="btn btn-primary btn-sm me-2" data-toggle="modal" data-target="#myModal${data[i].id}">
-                                        <i class="fas fa-edit"></i>
+                                <a id="edit" value="${data[i].id}" href="#" class="btn btn-primary btn-sm me-2" data-toggle="modal" data-target="#myModal${data[i].id}">
+                                        Edit
                                     </a>
                                     <div class="modal" id="myModal${data[i].id}">
                                         <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                            <h4 class="modal-title">Update Section</h4>
+                                            <h4 class="modal-title">Update Sessions</h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
                                                 <form class="user">
-                                                    <div class="form-group">
-                                                        <select class="form-select form-control-user py-3 w-100 px-3" name="session_name"
-                                                            id="session_name">
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="text" class="form-control form-control-user" id="section_name"
-                                                            placeholder="Enter Section Name">
-                                                    </div>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-user" id="session_name"
+                                                                placeholder="Enter Session Name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-user" id="session_name"
+                                                                placeholder="Enter Session Name">
+                                                        </div>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -82,7 +79,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                                         </div>
                                     </div>
                                     <a href="#" class="btn btn-danger  btn-sm" data-toggle="modal" data-target="#myModalone${data[i].id}">
-                                        <i class="fas fa-trash"></i>
+                                        Delete
                                     </a>
                                     <div class="modal" id="myModalone${data[i].id}">
                                         <div class="modal-dialog modal-dialog-centered">
@@ -92,7 +89,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-                                            Do you want to delete section <b>${data[i].section_name}</b>?
+                                            Are you sure to delete <b>${data[i].session_name}</b> account?
                                             </div>
                                             <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -101,7 +98,6 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                                         </div>
                                         </div>
                                     </div>
-                                    
                                 </td>
                             </tr>`
                             }
@@ -114,48 +110,19 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                     }
                 });
             }
-
-            getAllSessions();
-                //get all sessions
-                function getAllSessions() {
-                    var str = ""
-                    $.ajax({
-                        url: 'http://127.0.0.1:8000/api/show-session-list',
-                        type: 'GET',
-                        dataType: "json",
-                        success: function(result) {
-                            console.log(result);
-                            if (result.status == 'success') {
-                                var data = result.data;
-                                console.log(data);
-                                var str = '<option selected>Selected Session</option>';
-                                var lent = result.data.length;
-                                for (var i = 0; i < lent; i++) {
-                                    console.log(data[i].id);
-                                    str +=
-                                        `<option value="${data[i].id}">${data[i].session_name}</option>`
-                                }
-                                $("#session_name").append(str);
-                            } else if (result.status == 'error') {
-                                str +=
-                                    `<option>${result.message}</option>`;
-                                $("#session_name").append(str);
-                            }
-                        }
-                    });
-                }
-                var id = $(this).attr('value');
+                $(document).on('click','#edit',function(){
+                    var id = $(this).attr('value');
                 console.log(id);
                 $.ajax({
-                    url: `http://127.0.0.1:8000/api/show-section-edit/${id}`,
+                    url: `http://127.0.0.1:8000/api/show-project-edit/${id}`,
                     type: 'GET',
                     dataType: "json",
                     success: function(result) {
                         console.log(result);
                         if (result.status == 'success') {
                             var data = result.data;
-                            $("#session_name").val(data.session_name);
-                            $("#section_name").val(data.section_name);
+                            $("#project_title").val(data.project_title);
+                            $("#project_description").val(data.project_description);
                         } else if (result.status == 'error') {
                             Toastify({
                                 text: result.message,
@@ -165,18 +132,24 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                         }
                     }
                 });
-                //update course information
+                });
+                //update project information
             $(document).on('click', '#update', function() {
                 var id = $(this).attr('value');
-                var session_name = $("#session_name").val();
-                var section_name = $("#section_name").val();
+                var project_title = $("#project_title").val();
+                var project_description = $("#project_description").val();
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 $.ajax({
-                    url: `http://127.0.0.1:8000/api/section-update/${id}`,
+                    url: `http://127.0.0.1:8000/api/project-update/${id}`,
                     type: 'POST',
                     dataType: "json",
                     data: {
-                        session_name: session_name,
-                        section_name: section_name,
+                        project_title: project_title,
+                        project_description: project_description,
                     },
                     success: function(result) {
                         $("#myModal" + id).modal('hide');
@@ -204,8 +177,13 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             // Delete courses
             $(document).on('click', '#submit', function() {
                 var id = $(this).attr('value');
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 $.ajax({
-                    url: `http://127.0.0.1:8000/api/section-list-delete/${id}`,
+                    url: `http://127.0.0.1:8000/api/project-list-delete/${id}`,
                     type: 'POST',
                     dataType: "json",
                     success: function(result) {
@@ -234,7 +212,191 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         });
                 
             
-</script>
+</script> -->
 
+<script>
+        $(document).ready(function() {
+            getAllProjects();
+            //get all semester
+            function getAllProjects() {
+                var str = ""
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/show-project-list',
+                    type: 'GET',
+                    dataType: "json",
+                    success: function(result) {
+                        if (result.status == 'success') {
+                            var data = result.data;
+                            var lent = result.data.length;
+                            for (var i = 0; i < lent; i++) {
+                                str += `<tr>
+                                <td>${data[i].id}</td>
+                                <td>${data[i].project_title}</td>
+                                <td>${data[i].project_description}</td>
+                                <td>
+                                <a id="edit" value="${data[i].id}" href="#" class="btn btn-primary  btn-sm me-2" data-toggle="modal" data-target="#myModal${data[i].id}">
+                                        Edit
+                                    </a>
+                                    <div class="modal" id="myModal${data[i].id}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h4 class="modal-title">Update Semester</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="user">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-user" id="session_name"
+                                                                placeholder="Enter Session Name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control form-control-user" id="session_name"
+                                                                placeholder="Enter Session Name">
+                                                        </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            <a id="update" value="${data[i].id}" class="btn btn-success">Update</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModalone${data[i].id}">
+                                        Delete
+                                    </a>
+                                    <div class="modal" id="myModalone${data[i].id}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h4 class="modal-title">Delete Confirmation</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Are you sure to delete <b>${data[i].project_title}</b> account?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            <a id="submit" value="${data[i].id}" class="btn btn-success">Delete</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    
+                                </td>
+                                    </td>
+                            </tr>`
+                            }
+                            $("#t_data").append(str);
+                        } else if (result.status == 'error') {
+                            str +=
+                                `<tr><td colspan="8" class="text-center">${result.message}</td></tr>`;
+                            $("#t_data").append(str);
+                        }
+                    }
+                });
+            }
+            //specific project information
+            // $(document).on('click', '#edit', function() {
+            //     var id = $(this).attr('value');
+            //     console.log(id);
+            //     $.ajax({
+            //         url: `http://127.0.0.1:8000/api/show-project-edit/${id}`,
+            //         type: 'GET',
+            //         dataType: "json",
+            //         success: function(result) {
+            //             if (result.status == 'success') {
+            //                 var data = result.data;
+            //                 $("#project_title").val(data.project_title);
+            //                 $("#project_description").val(data.project_description);
+            //             } else if (result.status == 'error') {
+            //                 Toastify({
+            //                     text: result.message,
+            //                     className: "danger",
+            //                     duration: 3000,
+            //                 }).showToast();
+            //             }
+            //         }
+            //     });
+            // });
+            //update session information
+//             $(document).on('click', '#update', function() {
+//                 var id = $(this).attr('value');
+//                 $("#project_title").val(data.project_title);
+//                 $("#project_description").val(data.project_description);
+//                 $.ajaxSetup({
+//   headers: {
+//     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//   }
+// });
+//                 console.log(id);
+//                 $.ajax({
+//                     url: `http://127.0.0.1:8000/api/project-update/${id}`,
+//                     type: 'POST',
+//                     dataType: "json",
+//                     data: {
+//                         project_title: project_title,
+//                         project_description: project_description
+//                     },
+//                     success: function(result) {
+//                         $("#myModal" + id).modal('hide');
+//                         if (result.status == 'success') {
+//                             Toastify({
+//                                 text: result.message,
+//                                 className: "success",
+//                                 duration: 3000,
+//                             }).showToast();
+//                             setTimeout(() => {
+//                                 window.location.reload();
+//                                 // getAllCourses();
+//                             }, 5000);
+//                         } else if (result.status == 'error') {
+//                             Toastify({
+//                                 text: result.message,
+//                                 className: "danger",
+//                                 duration: 3000,
+//                             }).showToast();
+//                         }
+//                     }
+//                 });
+//             });
+            // Delete semester
+            $(document).on('click', '#submit', function() {
+                var id = $(this).attr('value');
+                console.log(id);
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+                $.ajax({
+                    url: `http://127.0.0.1:8000/api/project-list-delete/${id}`,
+                    type: 'POST',
+                    dataType: "json",
+                    success: function(result) {
+                        $("#myModalone" + id).modal('hide');
+                        if (result.status == 'success') {
+                            Toastify({
+                                text: result.message,
+                                className: "succes",
+                                duration: 3000,
+                            }).showToast();
+                            setTimeout(() => {
+                                window.location.reload();
+                                // getAllCourses();
+                            }, 1000);
+                        } else if (result.status == 'error') {
+                            Toastify({
+                                text: result.message,
+                                className: "danger",
+                                duration: 3000,
+                            }).showToast();
+                        }
+                    }
+                });
+            });
+        });
+</script>
 
 @endsection

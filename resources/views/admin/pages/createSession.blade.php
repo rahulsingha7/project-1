@@ -41,6 +41,11 @@
                 $(document).ready(function() {
             $('#submit').click(function() {
                 var session_name = $('#session_name').val();
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 var str = ''
                 $("#reg").empty();
                 if (session_name == '') {

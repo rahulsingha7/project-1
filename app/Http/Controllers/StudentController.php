@@ -14,4 +14,8 @@ class StudentController extends Controller
     public function createGroup(){
         return view('student.pages.createGroup');
     }
+    public function registerGroup(Request $req){
+        $student_id = $req->session()->get('userid');
+        
+    }
 }

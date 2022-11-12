@@ -106,7 +106,6 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                     }
                 });
             }
-
             getAllSessions();
                 //get all sessions
                 function getAllSessions() {
@@ -146,19 +145,26 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                         console.log(result);
                         if (result.status == 'success') {
                             var data = result.data;
+                            console.log(data);
                             $("#session_name").val(data.session_name);
                             $("#section_name").val(data.section_name);
                         } else if (result.status == 'error') {
                             Toastify({
                                 text: result.message,
                                 className: "danger",
-                                duration: 1000,
+                                duration: 3000,
                             }).showToast();
                         }
                     }
                 });
-                //update course information
+            });
+            //update course information
             $(document).on('click', '#update', function() {
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 var id = $(this).attr('value');
                 var session_name = $("#session_name").val();
                 var section_name = $("#section_name").val();
@@ -192,10 +198,108 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                         }
                     }
                 });
-            });
+
+//             getAllSessions();
+//                 //get all sessions
+//                 function getAllSessions() {
+//                     var str = ""
+//                     $.ajax({
+//                         url: 'http://127.0.0.1:8000/api/show-session-list',
+//                         type: 'GET',
+//                         dataType: "json",
+//                         success: function(result) {
+//                             console.log(result);
+//                             if (result.status == 'success') {
+//                                 var data = result.data;
+//                                 console.log(data);
+//                                 var str = '<option selected>Selected Session</option>';
+//                                 var lent = result.data.length;
+//                                 for (var i = 0; i < lent; i++) {
+//                                     console.log(data[i].id);
+//                                     str +=
+//                                         `<option value="${data[i].id}">${data[i].session_name}</option>`
+//                                 }
+//                                 $("#session_name").append(str);
+//                             } else if (result.status == 'error') {
+//                                 str +=
+//                                     `<option>${result.message}</option>`;
+//                                 $("#session_name").append(str);
+//                             }
+//                         }
+//                     });
+//                 }
+//               $(document).on('click','#edit',function(){
+//                 var id = $(this).attr('value');
+//                 console.log(id);
+//                 $.ajax({
+//                     url: `http://127.0.0.1:8000/api/show-section-edit/${id}`,
+//                     type: 'GET',
+//                     dataType: "json",
+//                     success: function(result) {
+//                         console.log(result);
+//                         if (result.status == 'success') {
+//                             var data = result.data;
+//                             $("#session_name").val(data.session_name);
+//                             $("#section_name").val(data.section_name);
+//                         } else if (result.status == 'error') {
+//                             Toastify({
+//                                 text: result.message,
+//                                 className: "danger",
+//                                 duration: 1000,
+//                             }).showToast();
+//                         }
+//                     }
+//                 });
+//               })
+//                 // update course information
+//             $(document).on('click', '#update', function() {
+//                 var id = $(this).attr('value');
+//                 var session_name = $("#session_name").val();
+//                 var section_name = $("#section_name").val();
+//                 $.ajaxSetup({
+//   headers: {
+//     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//   }
+// });
+//                 $.ajax({
+//                     url: `http://127.0.0.1:8000/api/section-update/${id}`,
+//                     type: 'POST',
+//                     dataType: "json",
+//                     data: {
+//                         session_name: session_name,
+//                         section_name: section_name,
+//                     },
+//                     success: function(result) {
+//                         $("#myModal" + id).modal('hide');
+//                         console.log(result);
+//                         if (result.status == 'success') {
+//                             Toastify({
+//                                 text: result.message,
+//                                 className: "succes",
+//                                 duration: 3000,
+//                             }).showToast();
+//                             setTimeout(() => {
+//                                 window.location.reload();
+//                                 // getAllCourses();
+//                             }, 5000);
+//                         } else if (result.status == 'error') {
+//                             Toastify({
+//                                 text: result.message,
+//                                 className: "danger",
+//                                 duration: 3000,
+//                             }).showToast();
+//                         }
+//                     }
+//                 });
+//             });
             // Delete courses
             $(document).on('click', '#submit', function() {
                 var id = $(this).attr('value');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                    });
                 $.ajax({
                     url: `http://127.0.0.1:8000/api/section-list-delete/${id}`,
                     type: 'POST',

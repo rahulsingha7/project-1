@@ -127,6 +127,11 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             $(document).on('click', '#update', function() {
                 var id = $(this).attr('value');
                 var semester_name = $("#semester_name").val();
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 console.log(id);
                 $.ajax({
                     url: `http://127.0.0.1:8000/api/semester-update/${id}`,
@@ -161,6 +166,11 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             // Delete semester
             $(document).on('click', '#submit', function() {
                 var id = $(this).attr('value');
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 $.ajax({
                     url: `http://127.0.0.1:8000/api/semester-list-delete/${id}`,
                     type: 'POST',

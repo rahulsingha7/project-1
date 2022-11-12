@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
@@ -38,8 +37,13 @@ class TeacherController extends Controller
         public function projectList(){
             return view('teacher.pages.projectList');
         }
-        public function projectListView(){
-            $data = Project::all();
+        public function projectListView(Request $request){
+            $teacher_id = $request->session()->get('userid');
+            $data = DB::table('projects')
+                    ->where('teacher_id','=',$teacher_id)
+                    ->get();
+            $data = Project::where('teacher_id','=',$teacher_id)->get();
+            // $data= Project::all();
             if($data->count() > 0){
                 return response()->json([
                     'status' => 'success',

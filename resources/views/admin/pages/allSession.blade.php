@@ -99,6 +99,7 @@ $(document).ready(function() {
     //specific session information
     $(document).on('click', '#edit', function() {
         var id = $(this).attr('value');
+        console.log(id);
         $.ajax({
             url: `http://127.0.0.1:8000/api/show-session-edit/${id}`,
             type: 'GET',
@@ -121,6 +122,11 @@ $(document).ready(function() {
     $(document).on('click', '#update', function() {
         var id = $(this).attr('value');
         var session_name = $("#session_name").val();
+        $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
         console.log(id);
         $.ajax({
             url: `http://127.0.0.1:8000/api/session-update/${id}`,
@@ -154,6 +160,11 @@ $(document).ready(function() {
     // Delete sessions
     $(document).on('click', '#submit', function() {
         var id = $(this).attr('value');
+        $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
         $.ajax({
             url: `http://127.0.0.1:8000/api/session-list-delete/${id}`,
             type: 'POST',

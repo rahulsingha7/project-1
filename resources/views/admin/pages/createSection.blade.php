@@ -28,8 +28,6 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form class="user" >
-                                                    <!-- {{csrf_field()}}
-                                                    action="{{url('store-section')}}" -->
                                                 <div class="form-group">
                                                 <select class="form-select form-control-user py-3 w-100 px-3" name="session_name"
                                                     id="session_name">
@@ -90,6 +88,11 @@
             $('#submit').click(function() {
                 var session_name = $('#session_name').val();
                 var section_name = $('#section_name').val();
+                $.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
                 var str = ''
                 $("#reg").empty();
                 if (session_name==''||section_name == '') {

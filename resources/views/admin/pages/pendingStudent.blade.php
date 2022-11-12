@@ -2,14 +2,13 @@
 @section('abcd')
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800 mt-2">Pending Students</h1>
+    <h1 class="h3 mb-0 text-gray-800">Pending Students</h1>
 </div>
-<table class="table table-responsive">
-  <thead>
+<table class="table">
+  <thead class="thead-light">
   <tr>
         <th>Name</th>
         <th>Email</th>
-        <th>Student ID</th>
         <th>Role</th>
         <th>Status</th>
         <th>Action</th>
@@ -21,7 +20,6 @@
             <tr>
                 <td>{{$psl->name}}</td>
                 <td>{{$psl->email}}</td>
-                <td>{{$psl->sid}}</td>
                 <td>{{$psl->role}}</td>
                 <td>
                     @if($psl->active == 1)
@@ -34,7 +32,7 @@
                 </td>
                 <td>
                <!-- Edit  -->
-            <a href="{{ url('update-pendingStudent/'.$psl->id) }}" class="btn btn-success" data-toggle="modal" data-target="#myModal2{{$psl->id}}"> <i class="fas fa-check"></i></a>
+            <a href="{{ url('update-pendingStudent/'.$psl->id) }}" class="btn btn-success" data-toggle="modal" data-target="#myModal2{{$psl->id}}"><i class="fas fa-check"></i></a>
               <!-- The Modal -->
               <div class="modal" id="myModal2{{$psl->id}}">
                 <div class="modal-dialog">
@@ -94,6 +92,9 @@
         @endif
   </tbody>
 </table>
+
+
+
 
 
 @endsection
